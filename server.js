@@ -27,6 +27,6 @@ app.use("/menu", menuRoute);
 app.use("/person", personRoute);
 
 //listening port
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("server created successfully");
 });
