@@ -2,9 +2,7 @@
 const express = require("express");
 const app = express();
 require('dotenv').config();
-const passport=require('passport');
-const localStrategy=require('passport-local').Strategy;
-const Person=require('./models/Person');
+const passport=require('./auth');
 
 //import db connection
 const db = require("./db");
@@ -16,31 +14,14 @@ const PORT=process.env.local_port || 3000
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
+//initialize authentication
+app.use(passport.initialize());
+const passportAuth=passport.authenticate('local',{session:false})
+
 //default route
-app.get("/", function (req, res) {
+app.get("/",function (req, res) {
   res.send("Welcome to CRUD operation");
 });
-
-//define passport function
-passport.use(new localStrategy(async(userName,password,done)=>{
-  //condition apply in authentication for check username and password
-  try{
-    const user=Person.findOne({userName:userName});
-    if(!user){
-      return done(null,false,{message:"invalid username"});
-    }
-    const isPasswordMatch=user.password===password ? true : false;
-    if(isPasswordMatch){
-      return done(null,user);
-    }else{
-      return done(null,false,{message:"password are incorrect"});
-    }
-
-  }catch(err){
-    return done(err);
-  }
-
-}))
 
 //middleware function
 const logRequest=(req,res,next)=>{
@@ -56,7 +37,7 @@ const personRoute = require("./route/personRoute");
 
 //use the router
 app.use("/menu", menuRoute);
-app.use("/person", personRoute);
+app.use("/person",passportAuth,personRoute);
 
 //listening port
 app.listen(PORT, () => {
