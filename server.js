@@ -20,7 +20,7 @@ const passportAuth=passport.authenticate('local',{session:false})
 
 //default route
 app.get("/",function (req, res) {
-  res.send("Welcome to CRUD operation");
+  res.send("welcome to our hotel");
 });
 
 //middleware function
