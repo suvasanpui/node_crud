@@ -19,3 +19,6 @@ function:-
 9. '/menu'(POST) - this route are used to store menu iteam according to there format without any token
 10. '/menu'(GET) - this route are used to get menu item without any token 
 11. '/menu/sweet'(GET) this route are used to get menu iteam according to the value 'sweet'
+
+
+****now connect mongodb atlas in remote****
