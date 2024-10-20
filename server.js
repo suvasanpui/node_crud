@@ -37,7 +37,7 @@ const personRoute = require("./route/personRoute");
 
 //use the router
 app.use("/menu", menuRoute);
-app.use("/person",passportAuth,personRoute);
+app.use("/person",personRoute);
 
 //listening port
 app.listen(PORT, () => {

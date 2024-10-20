@@ -1,25 +1,66 @@
 const express = require("express");
 const route = express.Router();
+const {jwtmiddleware,generateToken}=require('./../jwt')
 
 //import person model
 const Person = require("../models/Person");
 
-//post method for data insert in a person collection
-route.post("/", async (req, res) => {
+//post method for user signup in a person collection
+route.post("/signup", async (req, res) => {
   try {
     const data = req.body;
     const newPerson = new Person(data);
     const response = await newPerson.save();
     console.log("Data insert successfully");
-    res.status(200).json(response);
+
+    //create payload for generate token
+    const jwtPayload={
+      id:response.id,
+      userName:response.userName
+    }
+    console.log(JSON.stringify(jwtPayload))
+    //parameter pass to generate token function 
+    const token=generateToken(jwtPayload);
+    console.log("token",token);
+
+    res.status(200).json({response: response,token:token});
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal servr error" });
   }
 });
 
-//get method is used for fetch person data
-route.get("/", async (req, res) => {
+
+//post method for user login in a person collection
+route.post('/login',async(req,res)=>{
+  
+  try{
+    //extrct username and password fom request body
+    const {userName,password}=req.body;
+    //check username in person database
+    const user=await Person.findOne({userName:userName});
+    if(!user || !(await user.comparePassword(password))){
+      return res.status(401).json({error: "invalid username and password"})
+    } 
+
+    //generate token
+    const userPayload={
+      id:user.id,
+      userName:user.userName
+    }
+    //token generate
+    const token=generateToken(userPayload);
+    //return response
+    res.json({token})
+  }catch(err){
+    console.log(err);
+    res.status(500).json({error: "internal server error"})
+  }
+
+})
+
+//get method is used for fetch all person data
+route.get("/",jwtmiddleware, async (req, res) => {
   try {
     const data = await Person.find();
     console.log("data fetch successfully");
@@ -29,6 +70,18 @@ route.get("/", async (req, res) => {
     res.status(500).json({ error: "some problem for fetch data" });
   }
 });
+
+route.get('/profile',jwtmiddleware,async(req,res)=>{
+  try{
+  const userData=req.user;
+  const userId=userData.id;
+  const response=await Person.findById(userId)
+  res.json(response);
+  }catch(err){
+    console.error(err);
+    res.status(500).json({error:"user not found"})
+  }
+})
 
 //parmeteized api for person
 route.get("/:workType", async (req, res) => {
