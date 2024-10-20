@@ -16,7 +16,7 @@ const jwtmiddleware = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Attach user information to the request object
-        req.user = decoded //user is loction where specific userdata and token hava
+        req.user = decoded //user is loction where attach
         next();
     }catch(err){
         console.error(err);

@@ -10,7 +10,7 @@ const db = require("./db");
 //import port from env
 const PORT=process.env.local_port || 3000
 
-//body parser store in req.body
+//body parser store in req.body---this is most important parser
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
@@ -41,5 +41,5 @@ app.use("/person",personRoute);
 
 //listening port
 app.listen(PORT, () => {
-  console.log("server created successfully");
+  console.log("Server Connected");
 });

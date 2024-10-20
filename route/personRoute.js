@@ -5,7 +5,7 @@ const {jwtmiddleware,generateToken}=require('./../jwt')
 //import person model
 const Person = require("../models/Person");
 
-//post method for user signup in a person collection
+//post method for user registration in a person collection
 route.post("/signup", async (req, res) => {
   try {
     const data = req.body;
@@ -39,7 +39,7 @@ route.post('/login',async(req,res)=>{
     const {userName,password}=req.body;
     //check username in person database
     const user=await Person.findOne({userName:userName});
-    if(!user || !(await user.comparePassword(password))){
+    if(!user || !(await user.comparePassword(password))){ //comparePassword is a function that match user with a password
       return res.status(401).json({error: "invalid username and password"})
     } 
 
@@ -113,7 +113,7 @@ route.put("/:id",async(req,res)=>{
             runValidators:true //run mongoose validation
         });
         if(!response){
-            res.status(404).json({error:"person not found"})
+            res.status(404).json({error:"Person not found"})
         }
         console.log("data updated successfully");
         res.status(200).json(response);
