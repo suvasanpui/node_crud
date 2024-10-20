@@ -84,7 +84,7 @@ route.get('/profile',jwtmiddleware,async(req,res)=>{
 })
 
 //parmeteized api for person
-route.get("/:workType", async (req, res) => {
+route.get("/:workType",jwtmiddleware, async (req, res) => {
   //workType is a variable
   try {
     const workType = req.params.workType;
@@ -104,7 +104,7 @@ route.get("/:workType", async (req, res) => {
 
 
 //parameterized api for update data
-route.put("/:id",async(req,res)=>{
+route.put("/:id",jwtmiddleware,async(req,res)=>{
     try{
         const personId=req.params.id;
         const updatePerson=req.body;

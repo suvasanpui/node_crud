@@ -28,7 +28,7 @@ const jwtmiddleware = (req, res, next) => {
 // Function to generate JWT token
 const generateToken = (userData) => {
     // Generate a new JWT token using user data
-    return jwt.sign(userData, process.env.JWT_SECRET, {expiresIn: 30000}); //userData is a parameter that take value from 'personRouteb.js' file
+    return jwt.sign(userData, process.env.JWT_SECRET, {expiresIn: 300000}); //userData is a parameter that take value from 'personRouteb.js' file
 }
 
 module.exports = {jwtmiddleware, generateToken};

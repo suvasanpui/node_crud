@@ -1,0 +1,21 @@
+this is a complete hotel router concept-
+
+function:-
+1. '/' - defalt router mean when frist time run a server its opening
+2. '/person/signup'(POST) -this route are store registration data in a specific format and genrate a token
+3. '/person/login'(POST) - this route are used to login user using userName and password , and there are validation , 
+                    and after login the token generate this token are help when you want to access paerson data
+4. '/person'(GET) -  this route are used to get all user data but here token is needed mean when you login or when you 
+                signup this time token are generate and this token are store your broswer in a specific time , do not 
+                need to manuall put token that that control by the broswer
+5.'/person/profile'(GET) - this route are used to get specific user data according to their token mean when you login, this
+                   time the token are generate and after login when you put this url the server are get the profile, here token
+                   are needed
+6. '/person/chef'(GET)-this route are used to get specific user data according to their worktype(chef) and token mean when you login, this
+                   time the token are generate and after login when you put this url the server are get the profile, here token
+                   are needed
+7. '/person/id'(PUT) - this route are used to update user data but according to there token is needed
+8. '/person/id'(DELETE) - this route are used to delete user data but according to there token is needed
+9. '/menu'(POST) - this route are used to store menu iteam according to there format without any token
+10. '/menu'(GET) - this route are used to get menu item without any token 
+11. '/menu/sweet'(GET) this route are used to get menu iteam according to the value 'sweet'
